@@ -1,27 +1,101 @@
 import { PagesController } from "../../controllers"
-
-import { mocked } from 'ts-jest/utils'
 import { mock, MockProxy } from 'jest-mock-extended'
-import {GetPagesData} from "../../services"
-import { response,request } from "express"
+import { GetPagesData } from "../../services"
+// import puppeteer from "puppeteer"
 
-jest.mock('../../services/getPagesData')
+// jest.mock('../../services/getPagesData')
+// jest.mock('puppeteer')
+jest.setTimeout(100000);
 describe('pagesDatacontroller', () => {
-  let getPagesData: MockProxy<GetPagesData>
+  // let getPagesData: MockProxy<GetPagesData>
+
   let sut: PagesController
+  let request: any;
+  let response: any;
+
+
   beforeEach(() => {
-    getPagesData = mock()
-    getPagesData.execute.mockResolvedValue(
-      {
-        "resultados": "1231231"
-      }
-      )
-     sut = new PagesController()
+    // getPagesData = mock()
+    // getPagesData.execute.mockResolvedValue(
+    //   {
+    //     "resultados": "1231231"
+    //   }
+    // )
+    sut = new PagesController()
+    request = {
+      body: {}
+    };
+
+    response = {
+      send: jest.fn((param) => param),
+      json: jest.fn((json) => json ),
+      status: jest.fn((status) => status).mockReturnThis(),
+    };
   })
-  it('should be return some error', async () => {
+  it('should be return error when username is emptyß', async () => {
+    request.body = {
+      "auth": {
+        "userName": null,
+        "password": "testekonsi"
+      },
+      "cpf": "099.387.965-91"
+    }
+    const pageDataController = await sut.find(request, response)
+    //Nome de usuario Não pode ser vazio
+    expect(pageDataController).toBeDefined()
+    expect(pageDataController[0].constraints.isNotEmpty).toBeDefined()
+    expect(pageDataController[0].constraints.isNotEmpty).toEqual('Nome de usuario Não pode ser vazio')
+  })
+  it('should be return error when password is emptyß', async () => {
+    request.body = {
+      "auth": {
+        "userName": 'testekonsi',
+        "password": null
+      },
+      "cpf": "099.387.965-91"
+    }
+    const pageDataController = await sut.find(request, response)
+    //Nome de usuario Não pode ser vazio
+    expect(pageDataController).toBeDefined()
+    expect(pageDataController[0].constraints.isNotEmpty).toBeDefined()
+    expect(pageDataController[0].constraints.isNotEmpty).toEqual('senha Não pode ser vazio')
+  })
 
-      await sut.find(request,response)
+  it('should be return error when cpf is emptyß', async () => {
+    request.body = {
+      "auth": {
+        "userName": 'testekonsi',
+        "password": 'testekonsi'
+      },
+      "cpf": null
+    }
+    const pageDataController = await sut.find(request, response)
+    //Nome de usuario Não pode ser vazio
+    console.log(response.status)
+    expect(pageDataController).toBeDefined()
+    expect(pageDataController[0].constraints.isNotEmpty).toBeDefined()
+    expect(pageDataController[0].constraints.isNotEmpty).toEqual('Cpf Não pode ser vazio')
+  })
+  it("should be return data", async () => {
+    // const browser = await puppeteer.launch({
+    //   headless: false,
+    // })
+    // const page = await browser.newPage();
+     
+    // const url = "http://extratoclube.com.br/"
+      
+    // await page.goto(url)
+    request.body = {
+      "auth": {
+        "userName": 'testekonsi',
+        "password": 'testekonsi'
+      },
+      "cpf": '099.387.965-91'
+    }
+    // getPagesData.execute.mockResolvedValueOnce({"alo":"galera de cowboy"})
+    const pageDataController = await sut.find(request, response)
 
-      expect(sut).toBeDefined()
+    expect(pageDataController).toBeDefined()
+
   })
 })

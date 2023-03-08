@@ -1,4 +1,4 @@
-import PagesController from './PagesDataController'
+import {PagesController} from './PagesDataController'
 
 
 export {

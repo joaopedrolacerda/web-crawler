@@ -27,11 +27,10 @@ class GetPagesData {
   }
 
   public async execute({ auth,cpf }: tweet): Promise<any> {
-    console.log(auth)
     try {
       const url = "http://extratoclube.com.br/"
       const browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
       })
       const page = await browser.newPage();
      
@@ -56,14 +55,14 @@ class GetPagesData {
 
       const submit = await frame?.$('#botao')
 
-      await submit.click();
+      await submit?.click();
       await frame?.waitForNavigation();
       const textToClick = 'FECHAR';
       const menu = 'Menu de opções'
       const extratos = 'Extratos'
       await frame?.waitForSelector('[title="Fechar"]')
       // const buttonclose = await frame?.$('ion-button')
-      const close = await frame?.$x(`//*[text()="${textToClick}"]`);
+      const close = await frame?.$x(`//*[text()="${textToClick}"]`) as any
       await frame?.waitForSelector('[title="Fechar"]')
       const clickout = await frame?.$('[title="Fechar"]')
 
@@ -77,10 +76,10 @@ class GetPagesData {
         await frame?.waitForSelector('ion-item')
         await page.waitForTimeout(2000)
 
-        const tete = await frame?.$x(`//*[text()="Extratos"]`);
+        const tete = await frame?.$x(`//*[text()="Extratos"]`) as any
         console.log("tete",tete)
 
-        await tete[0].click()
+        await tete[0]?.click()
 
         await page.waitForTimeout(2000)
 
@@ -88,28 +87,27 @@ class GetPagesData {
         const extratosButton = "Extrato online"
         await frame?.waitForSelector('button')
 
-        const encontraItem = await frame?.$x(`//*[text()="${findbeneficios}"]`)
-        const extratoItem = await frame?.$x(`//*[text()="${extratosButton}"]`)
+        const encontraItem = await frame?.$x(`//*[text()="${findbeneficios}"]`) as any
+        const extratoItem = await frame?.$x(`//*[text()="${extratosButton}"]`) as any
 
       // //   // Scroll to the end of the page
         //const tete = await frame?.$('span')
 
         await page.waitForTimeout(2000)
-        await extratoItem[0].hover()
+        await extratoItem[0]?.hover()
 
-        await extratoItem[0].click()
+        await extratoItem[0]?.click()
 
       //  page.setDefaultTimeout(2000);
 
         await frame?.waitForSelector('button')
-        const findbeneficios = "Encontrar Benefícios de um CPF"
 
-        const encontraItem = await frame?.$x(`//*[text()="${findbeneficios}"]`)
+        // const encontraItem = await frame?.$x(`//*[text()="${findbeneficios}"]`)
         //const tete = await frame?.$('span')
         await page.waitForTimeout(2000)
 
-          encontraItem[0].hover()
-          encontraItem[0].click()
+          encontraItem[0]?.hover()
+          encontraItem[0]?.click()
 
       //     page.setDefaultTimeout(2000);
 
@@ -125,18 +123,18 @@ class GetPagesData {
 
           const searchButton = ' Procurar'
 
-          const searchButtonn = await frame?.$x(`//*[text()="${searchButton}"]`)
+          const searchButtonn = await frame?.$x(`//*[text()="${searchButton}"]`) as any
           console.log('inputframe')
           await page.waitForTimeout(2000)
           
-            await searchButtonn[0].hover()
-            await searchButtonn[0].click()
+          await searchButtonn[0]?.hover()
+          await searchButtonn[0]?.click()
 
 
           const inputSelector = 'ion-label'
           await frame?.waitForSelector(inputSelector)
           const inputElement = await frame?.$(inputSelector)
-          let value = await frame?.evaluate(el => el.textContent, inputElement)
+          let value = await frame?.evaluate(el => el?.textContent, inputElement)
         
           return {response: {"beneficios":value}}
 

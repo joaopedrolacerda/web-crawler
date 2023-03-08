@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
-import TweetController from '../controllers/PagesDataController';
+import {PagesController} from '../controllers/PagesDataController';
 
 const tweetsRouter = Router();
 
-const tweetController = new TweetController();
+const pagesController = new PagesController();
 
-tweetsRouter.post('/', tweetController.find);
+tweetsRouter.post('/', pagesController.find);
 
 export default tweetsRouter;
