@@ -153,7 +153,7 @@ class GetPagesData {
     await searchButtonn[0]?.click()
    }
 
-   public async getData(frame:Frame,pages:any){
+   public async getData(frame:Frame,pages:Page){
     const inputSelector = 'ion-label'
     await frame?.waitForSelector(inputSelector)
     const inputElement = await frame?.$(inputSelector)
