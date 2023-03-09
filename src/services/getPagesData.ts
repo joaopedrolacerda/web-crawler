@@ -1,5 +1,5 @@
 
-import puppeteer, { Page } from "puppeteer";
+import puppeteer, { Frame, Page } from "puppeteer";
 
 interface IParams {
   auth: IAuth;
@@ -16,8 +16,8 @@ class GetPagesData {
 
   public async execute({ auth,cpf }: IParams): Promise<any> {
     try {
-      const page = await this.configPage()
-      const frame = await this.getFrame(page)
+      const page = await this.configPage() as Page
+      const frame = await this.getFrame(page) as Frame
 
       await this.login(frame,auth)
 
@@ -57,7 +57,7 @@ class GetPagesData {
     return page
   }
 
-  public async getFrame(page:any){
+  public async getFrame(page:Page){
       const elementHandle = await page.waitForSelector('frame');
 
       const frame = await elementHandle?.contentFrame()
@@ -66,7 +66,7 @@ class GetPagesData {
 
   }
 
-  public async login(frame:any, auth:any){
+  public async login(frame:Frame, auth:IAuth){
 
     const username = await frame?.$('#user')
 
@@ -81,7 +81,7 @@ class GetPagesData {
     await frame?.waitForNavigation();
   }
 
-  public async closeModal(frame: any,page: any){
+  public async closeModal(frame: Frame,page: Page){
 
     const textToClick = 'FECHAR';
 
@@ -94,7 +94,7 @@ class GetPagesData {
     
     await close[0]?.click()
   }
-  public async closeMenu(frame:any,page:any){
+  public async closeMenu(frame:Frame,page:Page){
     await frame?.waitForSelector('ion-item')
     await page.waitForTimeout(2000)
 
@@ -105,7 +105,7 @@ class GetPagesData {
   }
 
 
-  public async clickToFocus(frame:any,page:any){
+  public async clickToFocus(frame:Frame,page:Page){
     await page.waitForTimeout(2000)
 
     const extractsButton = "Extrato online"
@@ -117,26 +117,26 @@ class GetPagesData {
 
     await findItem[0]?.click()
   }
-  public async selectItem(frame:any, page:any){
+  public async selectItem(frame:Frame, page:Page){
     await page.waitForTimeout(2000)
 
     const findbeneficios = "Encontrar Benefícios de um CPF"
     await frame?.waitForSelector('button')
 
-    const encontraItem = await frame?.$x(`//*[text()="${findbeneficios}"]`) as any
+    const findItem = await frame?.$x(`//*[text()="${findbeneficios}"]`) as any
 
     await frame?.waitForSelector('button')
 
 
     await page.waitForTimeout(2000)
 
-    encontraItem[0]?.hover()
-    encontraItem[0]?.click()
+    findItem[0]?.hover()
+    findItem[0]?.click()
 
     await page.waitForTimeout(2000)
   }
 
-   public async TypeAndSearch(frame:any, page:any,cpf:String){
+   public async TypeAndSearch(frame:Frame, page:Page,cpf:string){
     await frame?.waitForSelector('input')
 
     const inputFrame = await frame?.$('input')
@@ -153,7 +153,7 @@ class GetPagesData {
     await searchButtonn[0]?.click()
    }
 
-   public async getData(frame:any,pages:any){
+   public async getData(frame:Frame,pages:any){
     const inputSelector = 'ion-label'
     await frame?.waitForSelector(inputSelector)
     const inputElement = await frame?.$(inputSelector)
