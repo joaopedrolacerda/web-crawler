@@ -26,7 +26,7 @@ class GetPagesData {
     this.tweets = [];
   }
 
-  public async execute({ auth,cpf }: tweet): Promise<any> {
+  public async execute({ auth,cpf }: any): Promise<any> {
     try {
       const url = "http://extratoclube.com.br/"
       const browser = await puppeteer.launch({

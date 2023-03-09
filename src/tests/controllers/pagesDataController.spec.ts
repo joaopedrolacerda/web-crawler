@@ -1,26 +1,28 @@
 import { PagesController } from "../../controllers"
 import { mock, MockProxy } from 'jest-mock-extended'
 import { GetPagesData } from "../../services"
-// import puppeteer from "puppeteer"
 
-// jest.mock('../../services/getPagesData')
+jest.mock('../../services/getPagesData')
 // jest.mock('puppeteer')
 jest.setTimeout(100000);
 describe('pagesDatacontroller', () => {
-  // let getPagesData: MockProxy<GetPagesData>
+  let getPagesData: any
 
   let sut: PagesController
   let request: any;
   let response: any;
 
-
   beforeEach(() => {
-    // getPagesData = mock()
-    // getPagesData.execute.mockResolvedValue(
-    //   {
-    //     "resultados": "1231231"
-    //   }
-    // )
+    const mockBody = {
+      auth: {
+        username: "teste",
+        password: "teste"
+      },
+      cpf: "1231231"
+    }
+    getPagesData = mock()
+    getPagesData.execute.mockReturnValue('alou')
+
     sut = new PagesController()
     request = {
       body: {}
@@ -77,14 +79,12 @@ describe('pagesDatacontroller', () => {
     expect(pageDataController[0].constraints.isNotEmpty).toEqual('Cpf Não pode ser vazio')
   })
   it("should be return data", async () => {
-    // const browser = await puppeteer.launch({
-    //   headless: false,
-    // })
-    // const page = await browser.newPage();
-     
-    // const url = "http://extratoclube.com.br/"
-      
-    // await page.goto(url)
+    const mockedAuthService = GetPagesData as jest.MockedClass<typeof GetPagesData>; // typecast to jest.MockedClass
+
+    mockedAuthService.prototype.execute = jest.fn().mockResolvedValue({"beneficios": "alo"}); // mock the implementation of getUserData
+
+    const result = await new mockedAuthService().execute({});
+    
     request.body = {
       "auth": {
         "userName": 'testekonsi',
@@ -92,10 +92,29 @@ describe('pagesDatacontroller', () => {
       },
       "cpf": '099.387.965-91'
     }
-    // getPagesData.execute.mockResolvedValueOnce({"alo":"galera de cowboy"})
+
     const pageDataController = await sut.find(request, response)
 
     expect(pageDataController).toBeDefined()
+    expect(pageDataController.beneficios).toBeDefined()
+    expect(mockedAuthService.prototype.execute).toHaveBeenCalled()
+  })
+  it("should be return some error", async () => {  
+      const mockedAuthService = GetPagesData as jest.MockedClass<typeof GetPagesData>; // typecast to jest.MockedClass
 
+      mockedAuthService.prototype.execute = jest.fn().mockRejectedValue( new Error('ocorreu um erro erro ao buscar dados'))
+  
+      request.body = {
+        "auth": {
+          "userName": 'testekonsi',
+          "password": 'testekonsi'
+        },
+        "cpf": '099.387.965-91'
+      }
+      const pageDataController = await sut.find(request, response)
+      
+      expect(pageDataController).toBeDefined()
+      expect(pageDataController.error.message).toEqual('ocorreu um erro erro ao buscar dados')
+ 
   })
 })
