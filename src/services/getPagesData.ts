@@ -65,11 +65,11 @@ class GetPagesData {
       const close = await frame?.$x(`//*[text()="${textToClick}"]`) as any
       await frame?.waitForSelector('[title="Fechar"]')
       const clickout = await frame?.$('[title="Fechar"]')
-
+      console.log(close)
       await frame?.waitForSelector('[title="Fechar"]')
       await page.waitForTimeout(2000)
       
-      await close[0].click()
+      await close[0]?.click()
 
 
         //app-extrato
@@ -77,7 +77,6 @@ class GetPagesData {
         await page.waitForTimeout(2000)
 
         const tete = await frame?.$x(`//*[text()="Extratos"]`) as any
-        console.log("tete",tete)
 
         await tete[0]?.click()
 
@@ -140,7 +139,7 @@ class GetPagesData {
 
 
     } catch (error) {
-      throw new Error('ocorreu um erro ao buscar tweet');
+      throw new Error('Ocorreu um erro inesperado');
     }
   }
 
