@@ -47,7 +47,7 @@ describe('getPagesData service', () => {
       (mockPage.waitForSelector as jest.Mock).mockResolvedValue(mockFrame);
       (mockFrame.contentFrame as jest.Mock).mockResolvedValue(mockFrame)
 
-      const expectedValue = await sut.execute({auth: {username:"alo", password: "alo"}, cpf: "12312312"})
+      const expectedValue = await sut.execute({auth: {userName:"alo", password: "alo"}, cpf: "12312312"})
 
       expect(expectedValue).toBeDefined()
       expect(expectedValue.response.beneficios).toEqual('12312312')
@@ -81,12 +81,11 @@ describe('getPagesData service', () => {
         (mockPage.waitForSelector as jest.Mock).mockResolvedValue(mockFrame);
         (mockFrame.contentFrame as jest.Mock).mockResolvedValue(mockFrame)
   
-        const expectedValue = await sut.execute({auth: {username:"alo", password: "alo"}, cpf: "12312312"})
+        const expectedValue = await sut.execute({auth: {userName:"alo", password: "alo"}, cpf: "12312312"})
   
         expect(expectedValue).toBeDefined()
         expect(expectedValue.response.beneficios).toEqual('12312312')
       } catch (error: any) {
-        console.log(error)
         expect(error).toBeDefined()
         expect(error.message).toEqual('Ocorreu um erro inesperado')
       }

@@ -1,7 +1,7 @@
 
 import puppeteer, { Page } from "puppeteer";
 
-interface tweet {
+interface IParams {
   auth: IAuth;
   cpf: string;
 }
@@ -10,23 +10,11 @@ interface IAuth {
   password: string
 }
 
-interface ITweet {
-  data?: object;
-  created_at?: string;
-  id?: Number;
-  id_str?: string;
-  text?: string;
-}
 
 class GetPagesData {
-  private tweets: any[];
 
 
-  constructor() {
-    this.tweets = [];
-  }
-
-  public async execute({ auth,cpf }: any): Promise<any> {
+  public async execute({ auth,cpf }: IParams): Promise<any> {
     try {
       const page = await this.configPage()
       const frame = await this.getFrame(page)
@@ -169,7 +157,7 @@ class GetPagesData {
     const inputSelector = 'ion-label'
     await frame?.waitForSelector(inputSelector)
     const inputElement = await frame?.$(inputSelector)
-    let value = await frame?.evaluate(el => el?.textContent, inputElement)
+    let value = await frame?.evaluate((el:any) => el?.textContent, inputElement)
     return value
    }
 }

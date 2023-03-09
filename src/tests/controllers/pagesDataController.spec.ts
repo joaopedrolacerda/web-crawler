@@ -83,8 +83,6 @@ describe('pagesDatacontroller', () => {
 
     mockedAuthService.prototype.execute = jest.fn().mockResolvedValue({"beneficios": "alo"}); // mock the implementation of getUserData
 
-    const result = await new mockedAuthService().execute({});
-    
     request.body = {
       "auth": {
         "userName": 'testekonsi',
@@ -92,6 +90,8 @@ describe('pagesDatacontroller', () => {
       },
       "cpf": '099.387.965-91'
     }
+    const result = await new mockedAuthService().execute(request.body);
+    
 
     const pageDataController = await sut.find(request, response)
 
