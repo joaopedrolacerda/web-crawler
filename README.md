@@ -19,8 +19,9 @@ git clone https://github.com/joaopedrolacerda/web-crawler
 ```
 yarn install
 ```
+Você pode fazer o Build tanto em versão de desenvolvimento quanto em versão de teste
 
-você pode fazer o Build tanto em versão de desenvolvimento quanto em versão de teste
+
 
 
 ## Build
@@ -34,6 +35,16 @@ yarn build
 ```
 yarn start
 ```
+
+## acessando docs 
+Depois que o projeto estiver rodando você pode acessar a documentação pelo swagger, como no exemplo a baixo:
+
+````
+http://localhost:3333/api-docs/
+
+
+````
+
 
 ## Dev
 
