@@ -73,7 +73,6 @@ describe('pagesDatacontroller', () => {
     }
     const pageDataController = await sut.find(request, response)
     //Nome de usuario Não pode ser vazio
-    console.log(response.status)
     expect(pageDataController).toBeDefined()
     expect(pageDataController[0].constraints.isNotEmpty).toBeDefined()
     expect(pageDataController[0].constraints.isNotEmpty).toEqual('Cpf Não pode ser vazio')

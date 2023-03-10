@@ -38,7 +38,6 @@ class GetPagesData {
 
     
     } catch (error) {
-      console.log(error)
       throw new Error('Ocorreu um erro inesperado');
     }
   }
