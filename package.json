@@ -59,6 +59,7 @@
     "puppeteer": "^19.7.2",
     "scrapingbee": "^1.6.1",
     "socket.io": "^2.3.0",
+    "swagger-ui-express": "^4.6.2",
     "twit": "^2.2.11",
     "uuidv4": "^6.0.7"
   }

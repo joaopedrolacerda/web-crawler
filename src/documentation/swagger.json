@@ -1,0 +1,51 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "web-crawler-app",
+    "description": "web-crawler to login on page and get beneficts",
+    "version": "0.1.0"
+  },
+  "servers":[
+    {
+      "url": "http://localhost:3333"
+    }
+  ],
+
+  "paths": {
+    "/crawler/": {
+      "post": {
+        "summary": "find data of page",
+        "description": "get data from page",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "auth": {
+                    "type": "object"
+                  }
+                },
+                "example": {
+                  "auth": {
+                    "userName": "teste",
+                    "password": "teste"
+                  }, 
+                  "cpf": "123121"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success"
+          },
+          "400": {
+            "description": "error"
+          }
+        }
+      }
+    }
+  }
+}
