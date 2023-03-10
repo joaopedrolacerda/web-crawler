@@ -51,5 +51,5 @@ http://localhost:3333/api-docs/
 - Também tem a opção de rodar o servidor em modo desenvolvimento
 
 ```
-yarn dev:server
+yarn dev
 ```
