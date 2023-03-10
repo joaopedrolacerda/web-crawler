@@ -30,7 +30,8 @@ describe('getPagesData service', () => {
         evaluate: jest.fn(() => 'mock data'),
         setViewport: jest.fn(() => 'alou'),
         waitForSelector: jest.fn(() => {elementHandle: () => {}}),
-        waitForTimeout: jest.fn(() => {})
+        waitForTimeout: jest.fn(() => {}),
+        close: jest.fn(() => {})
       };
       const mockFrame = {
         $: jest.fn(),
