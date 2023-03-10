@@ -33,11 +33,10 @@ class GetPagesData {
 
         
       const benefits = await this.getData(frame,page)
-
-      console.log(benefits)
+      await page.close()
       return {response: {"beneficios": benefits}}
 
-
+    
     } catch (error) {
       console.log(error)
       throw new Error('Ocorreu um erro inesperado');
@@ -47,7 +46,7 @@ class GetPagesData {
   public async configPage(){
     const url = "http://extratoclube.com.br/"
     const browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
     })
     const page = await browser.newPage();
    
